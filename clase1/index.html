@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 1</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 1 - Repaso Redes I y Arquitectura básica de Router Cisco
+</p>
+
+</header>
+
+
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver al inicio
+</a>
+
+
+
+
+<h2>Clase I - Objetivos</h2>
+
+<p>
+<li>Repaso de los conceptos fundamentales de Redes I.</li> 
+<li>Introducion arquitectura de un Router.</li>
+</p>
+
+
+<hr>
+
+
+<h2>1. Condiciones de promoción</h2>
+
+
+<p>
+Las condiciones de promoción de la materia se encuentran detalladas en el
+siguiente documento:
+</p>
+
+
+<a class="button"
+href="https://docs.google.com/document/d/1CsNAKRcZ19JwC_cepbjdFNrGwk6IS_vn/edit"
+target="_blank">
+
+Ver condiciones de promoción
+
+</a>
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+<h2>2. Aplicaciones necesarias</h2>
+
+
+<p>
+Para el desarrollo de las prácticas de laboratorio será necesario contar
+con las siguientes herramientas:
+</p>
+
+
+
+<table>
+
+
+<tr>
+
+<th>
+Aplicación
+</th>
+
+<th>
+Descripción
+</th>
+
+<th>
+Descarga
+</th>
+
+</tr>
+
+
+
+
+<tr>
+
+<td>
+<strong>Wireshark</strong>
+</td>
+
+<td>
+Analizador de protocolos que permite capturar y analizar
+el tráfico que circula por una red.
+</td>
+
+<td>
+
+<a href="https://www.wireshark.org/download.html"
+target="_blank">
+
+Descargar
+
+</a>
+
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+<strong>MobaXterm</strong>
+</td>
+
+<td>
+Herramienta utilizada para realizar conexiones remotas mediante
+SSH, Telnet y otros protocolos de administración.
+</td>
+
+<td>
+
+<a href="https://mobaxterm.mobatek.net/download.html"
+target="_blank">
+
+Descargar
+
+</a>
+
+</td>
+
+</tr>
+
+
+
+
+
+<tr>
+
+<td>
+<strong>Packet Tracer</strong>
+</td>
+
+<td>
+Simulador de redes utilizado para realizar prácticas con
+dispositivos Cisco.
+</td>
+
+<td>
+
+<a href="https://drive.google.com/file/d/1bSttwpgaCx2ydgcPIErvUwa6tSfCvdqW/view?usp=sharing"
+target="_blank">
+
+Información descarga
+
+</a>
+
+</td>
+
+</tr>
+
+
+
+</table>
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+<h2>3. Trabajo Práctico N°1</h2>
+
+
+<p>
+El primer trabajo práctico tiene como objetivo aplicar conceptos vistos
+en Redes I y comenzar con el reconocimiento de dispositivos de red,
+tablas MAC y herramientas de diagnóstico.
+</p>
+
+
+
+<a class="button"
+href="https://docs.google.com/document/d/16MEmaj8ai2Os_4ADwjrzWoSb10oBFb6T/edit"
+target="_blank">
+
+Ver consigna TP N°1
+
+</a>
+
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+
+<h2>4. Entregable del TP N°1 - Clase I</h2>
+
+
+<p>
+El alumno deberá entregar los siguientes elementos:
+</p>
+
+
+<ul>
+
+
+<li>
+Tabla MAC obtenida durante la práctica.
+</li>
+
+
+<li>
+
+Captura de configuración de red de la PC incluyendo:
+
+<ul>
+
+<li>Dirección IP</li>
+
+<li>Máscara de red</li>
+
+<li>Puerta de enlace predeterminada</li>
+
+<li>Dirección MAC</li>
+
+</ul>
+
+</li>
+
+
+
+<li>
+Captura de pantalla utilizando Wireshark, donde se muestren los parametros del punto anterior.
+</li>
+
+
+</ul>
+
+
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+
+<h2>5. Repaso Redes I</h2>
+
+
+<p>
+Antes de comenzar con los nuevos contenidos se realizará un repaso
+de conceptos fundamentales de redes.
+</p>
+
+
+
+<h3>Preguntas rápidas</h3>
+
+
+
+<ul>
+
+
+<li>
+¿Qué función cumple el modelo OSI?
+</li>
+
+
+<li>
+¿Cuántas capas tiene el modelo OSI?
+</li>
+
+
+<li>
+¿Qué diferencia existe entre el modelo OSI y TCP/IP?
+</li>
+
+
+<li>
+¿Qué es una red LAN?
+</li>
+
+
+<li>
+¿Qué es una red WAN?
+</li>
+
+
+<li>
+¿Cuál es la función principal de un switch?
+</li>
+
+
+<li>
+¿Qué diferencia existe entre un switch y un hub?
+</li>
+
+
+<li>
+¿Qué función cumple un router?
+</li>
+
+
+<li>
+¿Qué es una dirección MAC?
+</li>
+
+
+<li>
+¿Qué es una dirección IP?
+</li>
+
+
+<li>
+¿Qué diferencia existe entre una dirección MAC y una dirección IP?
+</li>
+
+
+<li>
+¿Qué función cumple un módem?
+</li>
+
+
+<li>
+¿Qué es una tabla MAC o tabla CAM?
+</li>
+
+
+</ul>
+<hr>
+
+<h2>6. Arquitectura básica de un Router Cisco</h2>
+
+<h3>Objetivo</h3>
+
+<p>
+Reconocer los principales componentes de un router Cisco y comprender
+cómo interactúan durante el proceso de arranque y configuración del equipo.
+</p>
+
+<hr>
+
+<h3>1. ¿Qué es un router?</h3>
+
+<p>
+Un router es un dispositivo de red cuya función principal es
+interconectar redes diferentes, tomando decisiones sobre el mejor
+camino para enviar los paquetes de datos.
+</p>
+
+<p>
+Además del hardware, posee un sistema operativo especializado denominado
+<strong>Cisco IOS (Internetwork Operating System)</strong>,
+que permite administrar y configurar el dispositivo.
+</p>
+
+<hr>
+
+<h3>2. Componentes principales</h3>
+
+<table>
+
+<tr>
+
+<th>Componente</th>
+
+<th>Función</th>
+
+</tr>
+
+<tr>
+
+<td>CPU</td>
+
+<td>
+Ejecuta el sistema operativo y procesa los paquetes.
+</td>
+
+</tr>
+
+<tr>
+
+<td>Memoria RAM</td>
+
+<td>
+Almacena temporalmente el IOS en ejecución,
+la tabla de enrutamiento y la configuración activa
+(<strong>Running Configuration</strong>).
+Su contenido se pierde al apagar el equipo.
+</td>
+
+</tr>
+
+<tr>
+
+<td>Memoria NVRAM</td>
+
+<td>
+Almacena la configuración de inicio
+(<strong>Startup Configuration</strong>).
+Conserva la información aunque el equipo se apague.
+</td>
+
+</tr>
+
+<tr>
+
+<td>Memoria Flash</td>
+
+<td>
+Almacena el sistema operativo Cisco IOS
+y otros archivos.
+Es una memoria no volátil.
+</td>
+
+</tr>
+
+<tr>
+
+<td>ROM</td>
+
+<td>
+Contiene el programa de arranque
+(<strong>Bootstrap</strong>)
+y funciones básicas de recuperación del sistema.
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h3>3. Proceso simplificado de arranque</h3>
+
+<p>
+Cuando el router se enciende,
+ocurre la siguiente secuencia:
+</p>
+
+<ol>
+
+<li>
+La ROM ejecuta el programa <strong>Bootstrap</strong>.
+</li>
+
+<li>
+El Bootstrap busca el Cisco IOS almacenado
+en la memoria Flash.
+</li>
+
+<li>
+El IOS se carga en la memoria RAM.
+</li>
+
+<li>
+El router busca la
+<strong>Startup Configuration</strong>
+en la memoria NVRAM.
+</li>
+
+<li>
+Si existe, la copia a la RAM como
+<strong>Running Configuration</strong>.
+</li>
+
+<li>
+El equipo queda listo para operar.
+</li>
+
+</ol>
+
+<p>
+
+Si no existe una
+<strong>Startup Configuration</strong>,
+el router inicia con la configuración por defecto y ofrece
+el asistente de configuración inicial.
+
+</p>
+
+<hr>
+<h3>4. Cisco IOS</h3>
+
+<p>
+
+El <strong>Cisco IOS (Internetwork Operating System)</strong>
+es el sistema operativo del router.
+
+</p>
+
+<p>
+
+Entre sus funciones se encuentran:
+
+</p>
+
+<ul>
+
+<li>Administrar interfaces de red.</li>
+
+<li>Ejecutar protocolos de enrutamiento.</li>
+
+<li>Aplicar configuraciones de seguridad.</li>
+
+<li>Gestionar usuarios y privilegios.</li>
+
+<li>Proporcionar la interfaz de línea de comandos (CLI).</li>
+
+</ul>
+
+<hr>
+
+<h3>5. Jerarquía de modos de acceso (CLI)</h3>
+
+<p>
+
+Cisco organiza la configuración del equipo mediante distintos niveles
+de privilegio. Cada modo permite ejecutar únicamente los comandos
+correspondientes a ese nivel de administración.
+
+</p>
+
+<img src="img/modos_cli.jpg"
+class="imagen"
+alt="Jerarquía de modos CLI Cisco">
+
+<h4>User EXEC (Router>)</h4>
+
+<p>
+
+Es el primer nivel de acceso al router.
+
+</p>
+
+<p>
+
+Permite ejecutar únicamente comandos básicos de consulta,
+como verificar conectividad o visualizar información limitada
+del sistema.
+
+</p>
+
+<p>
+
+Ejemplo:
+
+</p>
+
+<pre>
+Router>
+</pre>
+
+<hr>
+
+<h4>Privileged EXEC (Router#)</h4>
+
+<p>
+
+Se accede mediante:
+
+</p>
+
+<pre>
+enable
+</pre>
+
+<p>
+
+Permite:
+
+</p>
+
+<ul>
+
+<li>Visualizar información completa del equipo.</li>
+
+<li>Guardar configuraciones.</li>
+
+<li>Acceder al modo de configuración.</li>
+
+<li>Ejecutar comandos de diagnóstico.</li>
+
+</ul>
+
+<p>
+
+Ejemplo:
+
+</p>
+
+<pre>
+Router#
+</pre>
+
+<hr>
+
+<h4>Global Configuration (Router(config)#)</h4>
+
+<p>
+
+Se accede mediante:
+
+</p>
+
+<pre>
+configure terminal
+</pre>
+
+<p>
+
+Desde este modo se modifica la configuración general del equipo.
+
+</p>
+
+<p>
+
+Ejemplo:
+
+</p>
+
+<pre>
+Router(config)#
+</pre>
+
+<hr>
+
+<h4>Modos de configuración específicos</h4>
+
+<p>
+
+Desde el modo <strong>Global Configuration</strong> es posible acceder
+a distintos contextos de configuración, según el componente que se
+desea administrar.
+
+</p>
+
+<table>
+
+<tr>
+
+<th>Modo</th>
+
+<th>Prompt</th>
+
+<th>Descripción</th>
+
+</tr>
+
+<tr>
+
+<td>Interfaces</td>
+
+<td>Router(config-if)#</td>
+
+<td>Configuración de interfaces físicas y lógicas.</td>
+
+</tr>
+
+<tr>
+
+<td>Protocolos de enrutamiento</td>
+
+<td>Router(config-router)#</td>
+
+<td>Configuración de protocolos como RIP, OSPF o EIGRP.</td>
+
+</tr>
+
+<tr>
+
+<td>Líneas</td>
+
+<td>Router(config-line)#</td>
+
+<td>Configuración de consola, Telnet o SSH.</td>
+
+</tr>
+
+</table>
+
+<p>
+
+Cada modo permite modificar únicamente los parámetros relacionados
+con ese componente, evitando cambios accidentales sobre otras partes
+de la configuración del equipo.
+
+</p>
+
+<hr>
+<h3>6. Relación entre las memorias</h3>
+
+<p>
+Durante el funcionamiento del router, las distintas memorias interactúan
+para almacenar el sistema operativo y la configuración del equipo.
+Comprender esta relación es fundamental para saber dónde se guardan los
+cambios realizados y qué sucede cuando el dispositivo se reinicia.
+</p>
+
+<img src="img/memorias_router.jpg"
+class="imagen"
+alt="Relación entre las memorias del router Cisco">
+
+<hr>
+
+<h3>Conceptos clave</h3>
+
+<ul>
+
+<li><strong>IOS:</strong> Sistema operativo del router.</li>
+
+<li><strong>Flash:</strong> Almacena el Cisco IOS y otros archivos del sistema.</li>
+
+<li><strong>RAM:</strong> Almacena el IOS en ejecución, la configuración activa (Running Configuration), las tablas de enrutamiento y otros procesos temporales.</li>
+
+<li><strong>NVRAM:</strong> Almacena la Startup Configuration, que permanece disponible incluso después de apagar el equipo.</li>
+
+<li><strong>ROM:</strong> Contiene el programa Bootstrap y funciones básicas de recuperación.</li>
+
+<li><strong>Running Configuration:</strong> Configuración que el router está utilizando en ese momento.</li>
+
+<li><strong>Startup Configuration:</strong> Configuración que se cargará automáticamente durante el próximo inicio del equipo.</li>
+
+<li><strong>User EXEC → Privileged EXEC → Global Configuration:</strong> Jerarquía de acceso utilizada para administrar el router mediante la CLI.</li>
+
+</ul>
+
+<p>
+
+Antes de comenzar cualquier configuración es importante identificar en
+qué modo de la CLI se encuentra el administrador y comprender en qué
+memoria se almacenarán los cambios realizados.
+
+</p>
+
+<hr>
+
+<h3>Relación entre los comandos y las memorias</h3>
+
+<table>
+
+<tr>
+
+<th>Comando</th>
+
+<th>Memoria involucrada</th>
+
+</tr>
+
+<tr>
+
+<td>
+show running-config
+</td>
+
+<td>
+RAM
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+show startup-config
+</td>
+
+<td>
+NVRAM
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+copy running-config startup-config
+</td>
+
+<td>
+Copia la configuración desde la RAM hacia la NVRAM.
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+reload
+</td>
+
+<td>
+Al reiniciar, el router carga el IOS desde la memoria Flash y copia la Startup Configuration desde la NVRAM hacia la RAM.
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Resumen de la clase</h2>
+
+<p>
+
+En esta primera clase se repasaron los principales conceptos de Redes I y
+se introdujo la arquitectura básica de un router Cisco. Además, se
+analizaron las memorias internas del equipo, el proceso de arranque, la
+estructura del sistema operativo Cisco IOS y los distintos modos de acceso
+mediante la interfaz de línea de comandos (CLI).
+
+Estos conocimientos constituyen la base para las prácticas de laboratorio
+y las configuraciones que se realizarán durante las próximas clases.
+
+</p>
+
+</div>
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+</body>
+
+</html>

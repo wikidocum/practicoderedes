@@ -1,0 +1,403 @@
+*{
+    box-sizing:border-box;
+}
+
+
+body{
+
+    margin:0;
+
+    font-family:Segoe UI, Arial, Helvetica, sans-serif;
+
+    background:#f5f5f5;
+
+    color:#333;
+
+}
+
+
+
+/* =========================
+   CABECERA GENERAL
+========================= */
+
+
+header{
+
+    background:linear-gradient(135deg,#005A9C,#0078D7);
+
+    color:white;
+
+    padding:45px;
+
+    text-align:center;
+
+}
+
+
+header h1{
+
+    margin:0;
+
+    font-size:38px;
+
+}
+
+
+header p{
+
+    margin-top:12px;
+
+    font-size:18px;
+
+    opacity:.95;
+
+}
+
+
+
+
+
+/* =========================
+   PORTADA - LISTADO CLASES
+========================= */
+
+
+.container{
+
+    width:90%;
+
+    max-width:1200px;
+
+    margin:40px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+    gap:25px;
+
+}
+
+
+
+.card{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:25px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+
+    transition:.25s;
+
+}
+
+
+
+.active:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.20);
+
+}
+
+
+
+.disabled{
+
+    opacity:.65;
+
+}
+
+
+
+.card h2{
+
+    color:#005A9C;
+
+    margin-top:8px;
+
+}
+
+
+
+.card p{
+
+    line-height:1.7em;
+
+}
+
+
+
+
+
+/* =========================
+   CONTENIDO DE LAS CLASES
+========================= */
+
+
+.lesson{
+
+    width:90%;
+
+    max-width:1000px;
+
+    margin:40px auto;
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:40px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+
+}
+
+
+
+.lesson h2{
+
+    color:#005A9C;
+
+    margin-top:40px;
+
+    border-bottom:2px solid #005A9C;
+
+    padding-bottom:8px;
+
+}
+
+
+
+.lesson h3{
+
+    color:#0078D7;
+
+    margin-top:30px;
+
+}
+
+
+
+.lesson p{
+
+    line-height:1.7em;
+
+}
+
+
+
+.lesson li{
+
+    margin-bottom:8px;
+
+}
+
+
+
+hr{
+
+    border:0;
+
+    border-top:1px solid #ddd;
+
+    margin:35px 0;
+
+}
+
+
+
+
+
+/* =========================
+   BADGES
+========================= */
+
+
+.badge{
+
+    display:inline-block;
+
+    background:#28a745;
+
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+
+
+.gray{
+
+    background:#8b8b8b;
+
+}
+
+
+
+
+
+/* =========================
+   BOTONES
+========================= */
+
+
+.button{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    background:#005A9C;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:12px 22px;
+
+    border-radius:6px;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+
+
+.button:hover{
+
+    background:#00447a;
+
+}
+
+
+
+
+
+/* =========================
+   TABLAS
+========================= */
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin:25px 0;
+
+}
+
+
+
+th{
+
+    background:#005A9C;
+
+    color:white;
+
+    padding:12px;
+
+    text-align:left;
+
+}
+
+
+
+td{
+
+    padding:12px;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+
+
+tr:hover{
+
+    background:#f5f5f5;
+
+}
+
+
+
+
+
+/* =========================
+   IMAGENES
+========================= */
+
+
+.imagen{
+
+    max-width:100%;
+
+    display:block;
+
+    margin:25px auto;
+
+}
+
+
+
+
+
+/* =========================
+   COMANDOS CISCO
+========================= */
+
+
+pre{
+
+    background:#222;
+
+    color:white;
+
+    padding:15px;
+
+    border-radius:8px;
+
+    overflow-x:auto;
+
+    font-family:Consolas,monospace;
+
+}
+
+
+
+
+
+/* =========================
+   FOOTER
+========================= */
+
+
+footer{
+
+    margin-top:50px;
+
+    text-align:center;
+
+    color:#666;
+
+    padding:30px;
+
+    border-top:1px solid #ddd;
+
+}
