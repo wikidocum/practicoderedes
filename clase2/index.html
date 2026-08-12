@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 2</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>Clase 2 - Direccionamiento IP de red LAN </p>
+
+</header>
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver al inicio
+</a>
+
+
+
+
+<h2>Clase II - Objetivos</h2>
+
+<p>
+<li>Comprender los conceptos fundamentales del direccionamiento IPv4.</li> 
+<li>Utilizar Packet Tracer para emular una red IP.</li> 
+<li>Configurar y verificar el direccionamiento IP de la LAN.</li>
+</p>
+
+
+<hr>
+
+<h2>1. Trabajo Práctico N°1</h2>
+
+<p>
+En esta clase se introducen los conceptos fundamentales del
+<strong>direccionamiento IPv4</strong>. Se utilizará
+<strong>Cisco Packet Tracer</strong> para diseñar, configurar y comprobar
+el funcionamiento de una red IP.
+</p>
+
+<a class="button"
+href="https://docs.google.com/document/d/1arMGxJfyMgiXhgoJwgtxwqoLNsVGwhJr/edit"
+target="_blank">
+
+Ver consigna TP N°1
+</a>
+
+<hr>
+
+<h2>2. Introducción al direccionamiento IPv4</h2>
+
+<h3>1. Conceptos básicos de direccionamiento IP</h3>
+
+<li>
+¿Qué es una dirección IP?
+</li>
+<li>
+¿Para qué se utiliza?
+</li>
+<li>
+¿Qué diferencia existe entre una dirección IP y una dirección MAC?
+</li>
+<li>
+¿Qué es IPv4?
+</li>
+<li>
+¿Cómo está estructurada una dirección IPv4?
+</li>
+<li>
+¿Qué es un octeto?
+¿Cuántos octetos tiene una dirección IPv4?
+</li>
+<li>
+¿Qué valores puede tomar cada octeto de una dirección IPv4?
+</li>
+<li>
+¿Por qué los valores de un octeto están comprendidos entre 0 y 255?
+</li>
+
+<hr>
+
+
+
+
+<h3>2. Red, host y máscara de subred</h3>
+
+<li>
+¿Qué parte de una dirección IP identifica a la red?
+</li>
+<li>
+¿Qué parte de una dirección IP identifica al dispositivo o host?
+</li>
+<li>
+¿Qué es una máscara de subred?
+</li>
+<li>
+¿Qué es una dirección de red, de host y de broadcast?
+</li>
+<li>
+¿Cómo está estructurada una dirección IPv4?
+</li>
+<li>
+¿Qué es un octeto?
+¿Cuántos octetos tiene una dirección IPv4?
+</li>
+<li>
+¿Qué valores puede tomar cada octeto de una dirección IPv4?
+</li>
+<li>
+¿Por qué los valores de un octeto están comprendidos entre 0 y 255?
+</li>
+
+<hr>
+
+<h3>3. Notación CIDR (Classless Inter-Domain Routing)</h3>
+<li>
+¿Qué relación existe entre la máscara de subred y la notación CIDR?
+</li>
+<li>
+¿Qué significa /24 y /16 en una dirección IPv4?
+</li>
+
+
+<hr>
+
+
+<h3>4. Gateway y DNS</h3>
+
+<li>
+¿Qué es el Default Gateway y para qué lo necesita una PC?
+</li>
+<li>
+¿Cómo se comunican dos dispositivos que pertenecen a la misma red?
+</li>
+<li>
+¿Qué ocurre cuando un dispositivo necesita comunicarse con otra red?
+</li>
+<li>
+¿Qué es el DNS y para qué se utiliza?
+</li>
+<li>
+¿Qué diferencia existe entre acceder a un servicio mediante su nombre y mediante su dirección IP?</li>
+
+<hr>
+
+
+<h2>3. Espacio de direccionamiento IPv4</h2>
+
+<p>
+En IPv4 existen diferentes rangos de direcciones destinados a distintos
+propósitos. Según su utilización, podemos distinguir entre
+<strong>direcciones privadas, públicas y reservadas o especiales</strong>.
+</p>
+
+<h3>1. Direcciones privadas</h3>
+
+<p>
+Las direcciones privadas se utilizan dentro de redes internas y
+<strong>no son enrutables directamente en Internet</strong>. Los principales
+rangos definidos para redes privadas son:
+</p>
+
+<table>
+
+<tr>
+<th>Rango</th>
+<th>CIDR</th>
+<th>Uso</th>
+</tr>
+
+<tr>
+<td>10.0.0.0 – 10.255.255.255</td>
+<td>10.0.0.0/8</td>
+<td>Redes privadas</td>
+</tr>
+
+<tr>
+<td>172.16.0.0 – 172.31.255.255</td>
+<td>172.16.0.0/12</td>
+<td>Redes privadas</td>
+</tr>
+
+<tr>
+<td>192.168.0.0 – 192.168.255.255</td>
+<td>192.168.0.0/16</td>
+<td>Redes privadas</td>
+</tr>
+
+</table>
+
+<h3>2. Direcciones públicas</h3>
+
+<p>
+Las direcciones públicas son <strong>enrutables en Internet</strong> y deben
+ser únicas globalmente. No existe un único rango de direcciones públicas:
+corresponden, en general, a las direcciones IPv4 asignables que no están
+reservadas para usos privados o especiales.
+</p>
+
+<h3>3. Direcciones reservadas y especiales</h3>
+
+<p>
+Algunas direcciones o rangos están reservados para funciones específicas:
+</p>
+
+<table>
+
+<tr>
+<th>Dirección / Rango</th>
+<th>Uso</th>
+</tr>
+
+<tr>
+<td>0.0.0.0</td>
+<td>Dirección no especificada</td>
+</tr>
+
+<tr>
+<td>127.0.0.0/8</td>
+<td>Loopback</td>
+</tr>
+
+<tr>
+<td>169.254.0.0/16</td>
+<td>APIPA (Automatic Private IP Addressing)</td>
+</tr>
+
+<tr>
+<td>224.0.0.0/4</td>
+<td>Multicast</td>
+</tr>
+
+<tr>
+<td>240.0.0.0/4</td>
+<td>Reservado / experimental</td>
+</tr>
+
+<tr>
+<td>255.255.255.255</td>
+<td>Broadcast limitado</td>
+</tr>
+
+</table>
+
+
+<hr>
+
+<h3>4. Calculadora de Redes</h3>
+
+<p>
+Utilizá esta herramienta para calcular y analizar redes IPv4 a partir de una dirección IP y su máscara de subred. Obtendrás información como la dirección de red, broadcast, rango de hosts y cantidad de direcciones disponibles.
+</p>
+
+<a class="button"
+href="https://www.aprendaredes.com/cgi-bin/ipcalc/ipcalc_cgi1?host=192.168.0.1&mask1=24&mask2="
+target="_blank">
+
+Calculadora IP
+</a>
+
+
+
+<hr>
+
+
+<h2>Resumen de la clase</h2>
+
+<p>
+En esta clase se incorporaron los conceptos fundamentales del
+<strong>direccionamiento IPv4</strong>, incluyendo redes, hosts,
+máscaras de subred, notación CIDR, Gateway, DNS y los principales
+rangos de direcciones IPv4.
+</p>
+
+<p>
+Estos conocimientos permiten diseñar, configurar y verificar el
+direccionamiento de una red LAN. A partir de lo aprendido, ya estás
+en condiciones de realizar el <strong>Trabajo Práctico N°1 en Cisco
+Packet Tracer</strong>, configurando los dispositivos y comprobando
+la conectividad de la red.
+</p>
+
+
+</div>
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+</body>
+
+</html>
