@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 3</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 3 - Direccionamiento IP y configuración básica de switches
+</p>
+
+</header>
+
+
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver al inicio
+</a>
+
+
+
+
+<h2>Clase III - Objetivos</h2>
+
+<p>
+<li>Aplicar los conceptos de direccionamiento IPv4 en una red LAN.</li> 
+<li>Realizar una configuración básica de un Switch mediante la CLI.</li> 
+</p>
+
+<hr>
+
+<h2>1. Trabajo Práctico N°2</h2>
+
+
+<a class="button"
+href="https://docs.google.com/document/d/16MEmaj8ai2Os_4ADwjrzWoSb10oBFb6T/edit"
+target="_blank">
+
+Ver consigna TP N°2
+</a>
+
+<hr>
+
+<h2>2. Trabajo Práctico N°3</h2>
+
+
+<a class="button"
+href="https://docs.google.com/document/d/17K-yeYK5V8T5dwQaEzhAJPc_05EXK4cw/edit"
+target="_blank">
+
+Ver consigna TP N°3
+</a>
+
+<hr>
+
+<h2>3. Aplicación del direccionamiento IPv4</h2>
+
+<h3>1. Conceptos básicos de direccionamiento IP</h3>
+
+<li>¿Qué es una dirección IP?</li>
+<li>¿Qué es una máscara de subred?</li>
+<li>¿Qué información nos permite conocer la máscara?</li>
+<li>¿Qué es una dirección de red?</li>
+<li>¿Qué es una dirección de broadcast?</li>
+<li>¿Qué es una dirección de host?</li>
+<li>¿Qué direcciones de una red /24 pueden asignarse a dispositivos?</li>
+
+
+<h3>2. Analizando una dirección IP</h3>
+
+<li>Dada la IP 192.168.10.25/24, ¿cuál es la dirección de red?</li>
+<li>¿Cuál es el primer host disponible?</li>
+<li>¿Cuál es el último host disponible?</li>
+<li>¿Cuál es la dirección de broadcast?</li>
+<li>¿Cuántos hosts utilizables tiene una red /24?</li>
+<li>¿Qué sucede si asignamos la dirección de red a una PC?</li>
+<li>¿Qué sucede si asignamos la dirección de broadcast a una PC?</li>
+<li>Si una PC tiene 192.168.1.10/24 y otra 192.168.1.20/24, ¿pertenecen a la misma red?
+¿Podrían comunicarse directamente?</li>
+<li>Si una PC tiene 192.168.1.10/24 y otra 192.168.2.10/24, ¿pertenecen a la misma red?
+¿Podrían comunicarse directamente?</li>
+
+<h3>3. Gateway</h3>
+
+<li>¿Qué es el gateway predeterminado?</li>
+<li>¿Cuándo utiliza una PC el gateway?</li>
+<li>¿Una PC necesita gateway para comunicarse con otra PC de su misma red?</li>
+<li>¿Qué podría ocurrir si configuramos incorrectamente el gateway?</li>
+
+
+<hr>
+
+<h2>4. Ejercicios Rápidos</h2>
+
+<h3>Ejercicio 1 — ¿Cuál es la red?</h3>
+
+<p>
+Dada la siguiente configuración:
+</p>
+
+<div><strong>IP: 192.168.10.25</strong></div>
+<div><strong>Máscara: 255.255.255.0</strong></div>
+
+<p>
+<li>¿Cuál es la dirección de red?</li>
+<li>¿Cuál es la dirección de red?</li>
+<li>¿Cuál es la dirección de broadcast?</li>
+<li>¿Cuál es el primer host?</li>
+<li>¿Cuál es el último host?</li>
+</p>
+
+
+<h3>Ejercicio 2 — ¿Están en la misma red?</h3>
+
+<div><strong>PC1</strong></div>
+<div><strong>IP: 192.168.1.10</strong></div>
+<div><strong>Máscara: 255.255.255.0</strong></div>
+
+<p>
+
+<div><strong>PC2</strong></div>
+<div><strong>IP: 192.168.1.20</strong></div>
+<div><strong>Máscara: 255.255.255.0</strong></div>
+
+<p>
+<li>¿Pertenecen a la misma red?</li>
+<li>¿Podrían comunicarse directamente?</li>
+</p>
+
+
+<h3>Ejercicio 3 — ¿Pueden hacer ping?</h3>
+
+<div><strong>PC1</strong></div>
+<div><strong>IP: 192.168.1.10</strong></div>
+<div><strong>Máscara: 255.255.255.0</strong></div>
+
+<p>
+
+<div><strong>PC2</strong></div>
+<div><strong>IP: 192.168.2.20</strong></div>
+<div><strong>Máscara: 255.255.255.0</strong></div>
+
+<p>
+<li>¿Pertenecen a la misma red?</li>
+<li>¿Podrían comunicarse directamente?</li>
+<li>¿Qué necesitarían para comunicarse?</li>
+</p>
+
+
+<h3>Ejercicio 4 — Detectar el error</h3>
+
+<div><strong>Dos computadoras tienen configurado:</strong></div>
+<div><strong>PC1 → 192.168.10.15/24</strong></div>
+<div><strong>PC2 → 192.168.10.15/25</strong></div>
+
+<p>
+<li>¿Qué problema existe?</li>
+</p>
+
+
+<h3>Ejercicio 5 — ¿Es una IP válida para un host?</h3>
+
+<div><strong>Red:</strong></div>
+<div><strong>192.168.1.0/24</strong></div>
+<p>
+<div>Indicar cuáles de estas direcciones pueden asignarse a una PC:</div>
+</p>
+
+<li>a) 192.168.1.0</li>
+<li>b) 192.168.1.1</li>
+<li>c) 192.168.1.100</li>
+<li>d) 192.168.1.255</li>
+
+
+<h3>Ejercicio 6 — El caso del trabajo práctico</h3>
+
+<div>Tenemos los siguientes equipos:</div>
+<p>
+<div><strong>PC1 → 200.10.10.1/24</strong></div>
+<div><strong>PC2 → 200.10.10.5/24</strong></div>
+<p>
+<div><strong>PC3 → 200.10.10.6/24</strong></div>
+<div><strong>PC4 → 200.10.10.10/24</strong></div>
+<p>
+<div><strong>PC5 → 200.10.10.11/24</strong></div>
+<div><strong>PC6 → 200.10.10.15/24</strong></div>
+<p>
+
+
+<div><strong>Preguntas:</strong></div>
+<p>
+<li>¿Cuántas redes IP diferentes existen?</li>
+<li>¿Todos los equipos pertenecen a la misma red?</li>
+<li>¿Cuál es la dirección de red?</li>
+<li>¿Podrían comunicarse entre sí?</li>
+
+
+<h3>Ejercicio 7 — Verdadero o falso</h3>
+
+<li>Dos dispositivos conectados a switches diferentes necesariamente pertenecen a redes IP diferentes.</li>
+<li>La dirección 192.168.1.0/24 puede asignarse a una PC.</li>
+<li>Para hacer ping a una dirección IP necesitamos configurar DNS.
+<li>La máscara permite identificar a qué red pertenece una dirección IP.</li>
+<li>Dos equipos de la misma red pueden comunicarse sin utilizar un gateway.</li>
+
+
+
+<hr>
+
+<h2>5. Configuración Básica de un Switch</h2>
+
+
+<p>
+En esta segunda parte de la clase trabajaremos con un Switch HP 1910/1920 real, aplicando los conceptos vistos para resolver la segunda parte del Trabajo Práctico 2. Aprenderemos a acceder al equipo mediante la CLI, realizar una configuración básica, verificar los cambios y guardar la configuración realizada.
+</p>
+
+<hr>
+
+<h3>Configuración Inicial</h3>
+
+
+<h4>Mostrar comandos avanzados</h4>
+
+<pre>
+&lt;HP&gt; _cmdline-mode on
+</pre>
+
+<ul>
+<li>Password: Jinhua1920unauthorized</li>
+<p>
+<div>ó (depende del modelo)</div>
+</p>
+<li>Password: 512900</li>
+</ul>
+
+
+<hr>
+<h4>Ingresar al modo de configuración</h4>
+Equivalente a "configure terminal" de Cisco):
+<pre>
+&lt;HP&gt; system-view
+[HP]
+</pre>
+
+
+<hr>
+<h4>Cambiar el nombre o identificación del switch</h4>
+<pre>
+[HP] sysname SWITCH_CBA_ADMIN
+[SWITCH_CBA_ADMIN]
+</pre>
+
+
+<hr>
+<h4>Configurar IP a la interfaz VLAN de administración (por defecto VLAN 1)</h4>
+<pre>
+[SWITCH_CBA_ADMIN] interface Vlan-interface 1
+[SWITCH_CBA_ADMIN-Vlan-interface1] ip address 192.168.1.1 255.255.255.0
+[SWITCH_CBA_ADMIN-Vlan-interface1] quit
+</pre>
+
+<hr>
+<h4>Configurar el default Gateway</h4>
+<pre>
+[SWITCH_CBA_ADMIN] ip route-static 0.0.0.0 0.0.0.0 192.168.1.1
+</pre>
+
+<hr>
+<h4>Agregar una descripción a las interfaces</h4>
+<pre>
+[SWITCH_CBA_ADMIN] interface GigabitEthernet1/0/1
+[SWITCH_CBA_ADMIN-GigabitEthernet1/0/1] description PC1 - Lab. Redes II
+[SWITCH_CBA_ADMIN-GigabitEthernet1/0/1] quit
+</pre>
+
+<hr>
+
+<h3>Verificación Básica</h3>
+
+<h4>Verificar la configuración IP</h4>
+<pre>
+&lt;SWITCH_CBA_ADMIN&gt; display ip interface brief
+</pre>
+<hr>
+
+<h4>Verificar la configuración completa</h4>
+Equivalente a "show running-config" de Cisco):
+<pre>
+&lt;SWITCH_CBA_ADMIN&gt; display current-configuration
+</pre>
+<hr>
+
+<h4>Verificar conectividad</h4>
+<pre>
+&lt;SWITCH_CBA_ADMIN&gt; ping xxx.xxx.xxx.xxx
+</pre>
+<hr>
+
+<h4>Ver la tabla MAC</h4>
+<pre>
+&lt;SWITCH_CBA_ADMIN&gt; display mac-address
+</pre>
+<hr>
+
+<h4>Ver estado de las interfaces</h4>
+<pre>
+&lt;SWITCH_CBA_ADMIN&gt; display interface brief
+</pre>
+<hr>
+
+
+<h2>Resumen de la clase</h2>
+
+<p>
+En esta clase aplicamos los conceptos de direccionamiento IPv4 para analizar redes, identificar direcciones de red, hosts y broadcast, y determinar cuándo dos dispositivos pueden comunicarse entre sí. También realizamos ejercicios de aplicación y trabajamos con un switch HP 1910/1920 real, aprendiendo a acceder a la CLI, configurar parámetros básicos, asignar una dirección IP de administración y verificar la conectividad.
+</p>
+
+</div>
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+</body>
+
+</html>
