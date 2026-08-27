@@ -182,19 +182,6 @@ ocupa 12 bits e identifica la VLAN a la que pertenece la trama.
 </ul>
 
 
-<pre>
-Etiqueta IEEE 802.1Q — 4 bytes
-
-┌──────────────────────────────┬──────────────────────────────┐
-│ TPID                         │ TCI                          │
-│ 16 bits                      │ 16 bits                      │
-├──────────────────────────────┼───────┬───────┬──────────────┤
-│ 0x8100                       │ PCP   │ DEI   │ VLAN ID      │
-│                              │ 3 bits│ 1 bit │ 12 bits      │
-└──────────────────────────────┴───────┴───────┴──────────────┘
-</pre>
-
-
 <p>
 El campo más importante para el funcionamiento de las VLAN es el
 <strong>VLAN ID</strong>, ya que permite al switch identificar a qué VLAN
