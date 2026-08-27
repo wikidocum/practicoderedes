@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 4</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 4 - VLANs
+</p>
+
+</header>
+
+
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver al inicio
+</a>
+
+
+
+
+<h2>Clase IV - Objetivos</h2>
+
+<p>
+<li>Comprender el concepto y funcionamiento de las VLAN.</li>
+<li>Comprender el funcionamiento de los puertos Access y Trunk y el concepto de VLAN nativa.</li>
+<li>Comprender el etiquetado de tramas mediante IEEE 802.1Q.</li>
+<li>Configurar VLAN en switches Cisco y HP.</li>
+</p>
+
+<hr>
+
+<h2>1. Trabajo Práctico N°4</h2>
+
+
+<a class="button"
+href="https://docs.google.com/document/d/1VbI7YjfixoINYY_PImUo6vcsLyK6Wu_z/edit"
+target="_blank">
+
+Ver consigna TP N°4
+</a>
+
+<hr>
+
+<h2>2. Redes LAN Virtuales (VLAN)</h2>
+
+<h3>1. VLANs</h3>
+
+<li>¿Qué es una VLAN?</li>
+<li>¿Qué problema puede resolver la utilización de VLAN?</li>
+<li>¿Qué es un dominio de broadcast?</li>
+<li>¿Todos los dispositivos conectados a un switch reciben necesariamente los mismos mensajes broadcast?</li>
+<li>Si tenemos tres VLAN diferentes, ¿cuántos dominios de broadcast tenemos?</li>
+<li>¿Qué ventaja aporta dividir una red en diferentes dominios de broadcast?</li>
+
+
+<h3>2. Puertos Access</h3>
+
+<li>¿Qué es un puerto Access?</li>
+<li>¿Cuántas VLAN puede transportar un puerto configurado como Access?</li>
+<li>¿Qué tipo de dispositivos se conectan normalmente a un puerto Access?</li>
+<li>Si conectamos una PC a un puerto Access configurado en VLAN 10, ¿a qué VLAN pertenece esa PC?</li>
+<li>¿Puede comunicarse con otra PC conectada a un puerto Access perteneciente a VLAN 20?</li>
+<li>¿Pueden comunicarse directamente dos dispositivos pertenecientes a la misma VLAN?</li>
+<li>¿Pueden comunicarse directamente dispositivos de VLAN diferentes?</li>
+<li>¿Qué sucede si dos dispositivos tienen direcciones IP pertenecientes a la misma red, pero están en VLAN diferentes?</li>
+<li>¿Qué elemento está produciendo la separación: la dirección IP o la VLAN?</li>
+<li>¿Qué necesitaríamos incorporar para permitir la comunicación entre VLAN diferentes?</li>
+
+
+<h3>3. Puertos Trunk</h3>
+
+<li>¿Qué problema aparece cuando una misma VLAN existe en varios switches?</li>
+<li>¿Podríamos utilizar un cable independiente para cada VLAN entre dos switches?</li>
+<li>¿Qué es un enlace Trunk?</li>
+<li>¿Cuántas VLAN puede transportar un enlace Trunk?</li>
+<li>¿Para qué se utiliza normalmente un puerto Trunk?</li>
+<li>¿Qué diferencia principal existe entre un puerto Access y un puerto Trunk?</li>
+
+
+<h3>4. VLAN nativa</h3>
+
+<li>¿Qué es una VLAN nativa?</li>
+<li>¿Qué tipo de tráfico circula por la VLAN nativa en un enlace Trunk?</li>
+<li>¿Qué significa que una trama viaje sin etiqueta?</li>
+<li>¿Cuál es la VLAN nativa predeterminada en muchos switches Cisco/HP?</li>
+<li>¿Es recomendable utilizar la VLAN 1 como VLAN nativa en una red real?</li>
+<li>¿Qué problemas podrían aparecer si los extremos de un enlace Trunk tienen configurada una VLAN nativa diferente?</li>
+
+
+<hr>
+
+<h2>3. VLANs: un poco de Teoría</h2>
+
+<h3>1. IEEE 802.1Q</h3>
+
+<p>
+El estándar <strong>IEEE 802.1Q</strong> agrega una etiqueta de
+<strong>4 bytes</strong> a la trama Ethernet original. Esta etiqueta permite indicar,
+entre otros datos, el identificador de la VLAN a la que pertenece la trama.
+</p>
+
+<p>
+De esta forma, un mismo enlace físico configurado como
+<strong>Trunk</strong> puede transportar simultáneamente tráfico de diferentes
+VLAN.
+</p>
+
+<p>
+Una trama Ethernet tradicional no contiene información sobre la VLAN a la que
+pertenece:
+</p>
+
+</p>
+<p>
+<img src="img/tramas-ethernet.jpg"
+class="imagen"
+alt="Tramas Ethernet">
+</p>
+<p>
+
+<p>
+Pero al utilizar IEEE 802.1Q, se incorpora una etiqueta VLAN:
+</p>
+
+
+
+
+<h3>2. Campos de la etiqueta IEEE 802.1Q</h3>
+
+<p>
+La etiqueta IEEE 802.1Q tiene un tamaño total de <strong>4 bytes</strong> y
+está formada por varios campos:
+</p>
+
+<ul>
+
+<li>
+<strong>TPID (Tag Protocol Identifier):</strong>
+ocupa 2 bytes e identifica que la trama contiene una etiqueta IEEE 802.1Q.
+En Ethernet normalmente utiliza el valor hexadecimal
+<strong>0x8100</strong>.
+</li>
+
+<li>
+<strong>Prioridad (PCP):</strong>
+ocupa 3 bits y permite indicar un nivel de prioridad para el tráfico.
+</li>
+
+<li>
+<strong>CFI / DEI:</strong>
+ocupa 1 bit. Originalmente estaba relacionado con la compatibilidad entre
+diferentes tipos de redes. En implementaciones actuales puede utilizarse para
+indicar la posibilidad de descartar una trama.
+</li>
+
+<li>
+<strong>VLAN ID (VID):</strong>
+ocupa 12 bits e identifica la VLAN a la que pertenece la trama.
+</li>
+
+</ul>
+
+
+<pre>
+Etiqueta IEEE 802.1Q — 4 bytes
+
+┌──────────────────────────────┬──────────────────────────────┐
+│ TPID                         │ TCI                          │
+│ 16 bits                      │ 16 bits                      │
+├──────────────────────────────┼───────┬───────┬──────────────┤
+│ 0x8100                       │ PCP   │ DEI   │ VLAN ID      │
+│                              │ 3 bits│ 1 bit │ 12 bits      │
+└──────────────────────────────┴───────┴───────┴──────────────┘
+</pre>
+
+
+<p>
+El campo más importante para el funcionamiento de las VLAN es el
+<strong>VLAN ID</strong>, ya que permite al switch identificar a qué VLAN
+pertenece cada trama.
+</p>
+
+
+<h3>3. Access y Trunk</h3>
+
+
+<ul>
+
+<li>
+Un puerto <strong>Access</strong> pertenece normalmente a una sola VLAN y se
+utiliza para conectar dispositivos finales. Las tramas que llegan desde estos
+dispositivos normalmente no incluyen una etiqueta VLAN.
+</li>
+
+<li>
+Un puerto <strong>Trunk</strong> permite transportar tráfico de múltiples VLAN
+por un mismo enlace físico. Para identificar a qué VLAN pertenece cada trama
+se utiliza normalmente el etiquetado <strong>IEEE 802.1Q</strong>.
+</li>
+
+</ul>
+
+</p>
+
+
+
+<hr>
+
+
+
+
+<h2>4. Configuración de VLANs en un Switch</h2>
+
+<p>
+En esta segunda parte de la clase trabajaremos con un Switch HP 1910/1920 real, aplicando los conceptos vistos para resolver el Trabajo Práctico 4.
+</p>
+
+<hr>
+
+<h3>Crear VLANs</h3>
+
+
+<h4>Mostrar comandos avanzados y entrar al modo configuración</h4>
+
+<pre>
+&lt;HP&gt; _cmdline-mode on
+&lt;HP&gt; system-view
+[HP]
+</pre>
+<hr>
+
+
+<h4>Crear las VLAN</h4>
+<pre>
+[HP] vlan 10
+[HP-vlan10] name ADMIN
+[HP-vlan10] quit
+
+[HP] vlan 20
+[HP-vlan20] name ALUMNOS
+[HP-vlan20] quit
+</pre>
+<hr>
+
+
+<h4>Configurar los puertos ACCESS</h4>
+<pre>
+[HP] interface Ethernet 1/0/10
+[HP-Ethernet1/0/10] port link-type access
+[HP-Ethernet1/0/10] port access vlan 10
+[HP-Ethernet1/0/10] quit
+
+[HP] interface Ethernet 1/0/20
+[HP-Ethernet1/0/20] port link-type access
+[HP-Ethernet1/0/20] port access vlan 20
+[HP-Ethernet1/0/20] quit
+
+</pre>
+<hr>
+
+
+<h4>Configurar los puertos TRUNKS</h4>
+<pre>
+[HP] interface Ethernet 1/0/24
+[HP-Ethernet1/0/1] port link-type trunk
+[HP-Ethernet1/0/1] port trunk permit vlan 10 20
+[HP-Ethernet1/0/1] quit
+</pre>
+<hr>
+
+
+
+
+<h3>Verificación</h3>
+
+<h4>Ver todas las VLANs:</h4>
+<pre>
+&lt;HP&gt; display vlan all
+</pre>
+<hr>
+
+<h4>Ver una VLAN específica:</h4>
+<pre>
+&lt;HP&gt; display vlan 10
+</pre>
+<hr>
+
+<h4>Ver la configuración completa:</h4>
+<pre>
+&lt;HP&gt; display current-configuration 
+</pre>
+<hr>
+
+<h4>Ver configuración por interfaz:</h4>
+<pre>
+&lt;HP&gt; display interface brief
+</pre>
+<hr>
+
+
+
+
+<h2>Resumen de la clase</h2>
+
+
+<p>
+En esta clase aprendimos qué son las <strong>VLAN (Virtual LAN)</strong> y cómo permiten dividir una red física en diferentes redes lógicas.
+</p>
+
+<p>
+Vimos que cada VLAN representa un <strong>dominio de broadcast independiente</strong>, permitiendo separar dispositivos y organizar mejor una red, incluso cuando se encuentran conectados al mismo switch.
+</p>
+
+<p>
+También analizamos la diferencia entre los puertos <strong>Access</strong> y <strong>Trunk</strong>. Los puertos Access se utilizan normalmente para conectar dispositivos finales y pertenecen a una única VLAN, mientras que los enlaces Trunk permiten transportar el tráfico de múltiples VLAN a través de un mismo enlace físico.
+</p>
+
+<p>
+Para identificar el tráfico de las diferentes VLAN en un enlace Trunk, estudiamos el estándar <strong>IEEE 802.1Q</strong> y la etiqueta que incorpora a las tramas Ethernet.
+</p>
+
+<p>
+Finalmente, aplicamos estos conceptos en un switch real, creando VLAN, configurando puertos Access y Trunk y utilizando diferentes comandos para verificar la configuración realizada.
+</p>
+
+<p>
+Con estos conocimientos ya podemos comenzar a diseñar y configurar redes segmentadas mediante VLAN, aplicando los conceptos vistos para resolver el <strong>Trabajo Práctico N°4</strong>.
+</p>
+</p>
+
+</div>
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+</body>
+
+</html>
