@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 5</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 5 - Routers
+</p>
+
+</header>
+
+
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver a principal
+</a>
+
+
+
+
+<h2>Clase V - Objetivos</h2>
+
+<p>
+<li>Comprender el funcionamiento de un router.</li>
+<li>Interconectar diferentes redes IP.</li>
+<li>Interpretar tablas de enrutamiento y comprender el reenvío de paquetes.</li>
+<li>Configurar y verificar un router Cisco.</li>
+</p>
+
+<hr>
+
+<h2>1. Trabajo Práctico N°5</h2>
+
+
+<a class="button"
+href="https://docs.google.com/document/d/1pv_7y0pvGzSl_uwYlSG3-CXSZ8ex_2RU/edit"
+target="_blank">
+
+Ver consigna TP N°5
+</a>
+
+<hr>
+
+<h2>2. Funcionamiento del Router</h2>
+
+<h3>1. Router y enrutamiento</h3>
+
+<li>¿Qué es un router y cuál es su función principal en una red?</li> 
+<li>¿En qué capa del modelo OSI trabaja principalmente un router?</li> 
+<li>¿Qué información utiliza un router para decidir hacia dónde enviar un paquete?</li>
+<li>¿Qué diferencia principal existe entre un switch y un router?</li>
+
+
+<hr>
+
+
+<h3>2. Tabla de enrutamiento</h3>
+
+
+<p>
+
+<li>¿Qué es una tabla de enrutamiento y qué información contiene?</li> 
+<li>¿Cuál es la diferencia entre una red <strong>directamente conectada</strong> y una <strong>red remota</strong>?</li> 
+<li>¿Qué significa que una red aparezca como <strong>Connected (C)</strong> en la tabla de enrutamiento?</li> 
+<li>¿Cómo aprende un router que una red está directamente conectada?</li> 
+<li>¿Qué diferencia existe entre una ruta estática y una ruta aprendida mediante un protocolo de enrutamiento dinámico?</li> 
+<li>¿Qué es una ruta por defecto y qué función cumple <code>0.0.0.0/0</code>?</li> 
+<li>¿Qué ocurre si el router recibe un paquete destinado a una red que no aparece en su tabla de enrutamiento y tampoco existe una ruta por defecto?</li>
+
+<p>
+<img src="img/tabla-enrutamiento.jpg"
+class="imagen"
+alt="Tabla de Entutamiento">
+</p>
+
+<hr>
+
+<h3>3. Reenvío de paquetes</h3>
+
+<li>¿Qué proceso realiza el router cuando recibe un paquete?</li> 
+<li>¿Cómo determina el router por qué interfaz debe reenviar un paquete?</li> 
+<li>¿Qué es un <strong>next-hop</strong> y cuándo se utiliza?</li> 
+<li>¿Qué diferencia existe entre enviar un paquete hacia una red directamente conectada y enviarlo hacia una red remota?</li> 
+<li>¿Qué ocurre cuando existen varias rutas posibles hacia una misma red?</li>
+
+
+
+<p>
+<img src="img/diagrama-flujo.jpg"
+class="imagen"
+alt="Diagrama flujo reenvio paquetes">
+</p>
+
+
+<hr>
+
+
+<h2>4. ¿Cómo conecta un Router diferentes redes?</h2>
+
+<p>
+Los routers permiten interconectar diferentes redes IP y decidir por dónde reenviar cada paquete. En este ejemplo, el router conecta tres redes LAN independientes y utiliza su tabla de enrutamiento para determinar la interfaz de salida correspondiente a cada red destino.
+</p>
+
+<hr>
+
+<h3>Topología Ejemplo</h3>
+
+<p>
+Analicemos la siguiente topología, en la que tres redes LAN diferentes se encuentran interconectadas mediante routers.
+</p>
+
+<p>
+<img src="img/topologia-red.jpg"
+class="imagen"
+alt="Topologia-red">
+</p>
+
+<hr>
+
+
+<h2>5. Configuración Básica de un Router Cisco</h2>
+
+
+
+
+<h4>Acceder al modo privilegiado y al modo de configuración global:</h4>
+<pre>
+Router&gt; enable
+Router# configure terminal
+Router(config)#
+</pre>
+<hr>
+
+
+<h4>Configurar el nombre:</h4>
+<pre>
+Router(config)#hostname Router_CBA
+Router_CBA(config)#
+</pre>
+<hr>
+
+
+<h4>Configurar contraseña de acceso al modo privilegiado:</h4>
+<pre>
+Router_CBA(config)#enable secret redes2
+Router_CBA(config)#
+Router_CBA(config)#end
+Router_CBA#
+Router_CBA#disable
+Router_CBA>enable
+Password: 
+</pre>
+<hr>
+
+<h4>Configuración de las interfaces:</h4>
+<pre>
+Router_CBA#configure terminal
+Router_CBA(config)#interface FastEthernet 0/0
+Router_CBA(config-if)#ip address 192.168.10.1 255.255.255.0
+Router_CBA(config-if)#no shutdown 
+
+%LINK-5-CHANGED: Interface FastEthernet0/0, changed state to up
+
+Router_CBA(config-if)#exit
+Router_CBA(config)#
+</pre>
+<hr>
+
+<h4>Verificación del Router:</h4>
+<pre>
+Router_CBA#show ip interface brief 
+
+Router_CBA#show ip route
+</pre>
+<hr>
+
+
+
+
+<h2>Resumen de la clase</h2>
+
+<p>
+En esta clase aprendimos cómo funcionan los <strong>routers</strong> y cómo permiten interconectar diferentes redes IP. Analizamos la tabla de enrutamiento, las redes directamente conectadas y el proceso de reenvío de paquetes. También realizamos una configuración básica de un router Cisco y verificamos sus interfaces y rutas mediante la CLI.
+</p>
+
+<a class="button" href="./index.html">
+← Volver al inicio
+</a>
+
+</p>
+
+</div>
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+</body>
+
+</html>
