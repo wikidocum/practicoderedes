@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 6</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 5 - Ruteo Estático
+</p>
+
+</header>
+
+
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver a principal
+</a>
+
+
+
+
+<h2>Clase V - Objetivos</h2>
+
+<p>
+<ul>
+
+
+<li>Comprender el funcionamiento del ruteo estático.</li>
+
+<li>Configurar rutas estáticas en Cisco IOS.</li>
+
+<li>Configurar rutas por defecto.</li>
+
+<li>Verificar rutas y conectividad mediante comandos de Cisco IOS.</li>
+
+</ul>
+
+</p>
+
+<hr>
+
+<h2>1. Trabajo Práctico N°6</h2>
+
+
+<a class="button"
+href="https://docs.google.com/document/d/1-lgz3ck7A3uBe5wuqF_8IdKQVMg1W11i/edit"
+target="_blank">
+
+Ver consigna TP N°6
+</a>
+
+<hr>
+
+<h2>2. Enrutamiento Estático</h2>
+
+<h3>1. Router y enrutamiento</h3>
+
+<li>¿Qué es un router y cuál es su función principal en una red?</li> 
+<li>¿En qué capa del modelo OSI opera principalmente un router para tomar decisiones de reenvío?</li>
+<li>¿Cuál es el valor de Distancia Administrativa (AD) asignado por defecto a una ruta estática en un router Cisco?</li>
+<li>¿Qué código identifica una ruta estática hacia una red específica dentro de la tabla de ruteo de Cisco?</li>
+<li>¿Qué código identifica una ruta estática por defecto dentro de la tabla de ruteo de Cisco?</li>
+<li>¿Qué información necesita conocer un router para poder configurar correctamente una ruta estática hacia una red remota?</li>
+<li>¿Qué diferencia existe entre una ruta estática y una ruta estática por defecto?</li>
+<li>¿Qué es una ruta estática flotante y para qué se utiliza?</li>
+<li>¿Qué comandos de Cisco IOS utilizarías para verificar que una ruta estática fue configurada correctamente y comprobar el camino hacia un destino?</li>
+
+
+<hr>
+
+
+<h3>2. Tabla de enrutamiento</h3>
+
+<p>
+<img src="img/tabla-enrutamiento.jpg"
+class="imagen"
+alt="Tabla de Entutamiento">
+</p>
+
+<hr>
+
+
+
+<h2>3. Ruteo Estático en un Router Cisco</h2>
+
+<h3>1. Configuración de rutas estáticas</h3>
+
+<h4>Configurar una ruta estática:</h4>
+
+<pre>
+Router_CBA(config)#ip route 192.168.20.0 255.255.255.0 10.0.0.2
+</pre>
+
+<p>Indica que para llegar a la red <strong>192.168.20.0/24</strong>, el router debe enviar los paquetes al router vecino <strong>10.0.0.2</strong>.</p>
+
+<hr>
+
+
+<h4>Configurar una ruta estática por defecto:</h4>
+
+<pre>
+Router_CBA(config)#ip route 0.0.0.0 0.0.0.0 10.0.0.2
+</pre>
+
+<p>
+La ruta por defecto se utiliza cuando no existe una ruta más específica para la red de destino. <strong>0.0.0.0 0.0.0.0</strong> representa cualquier red o dirección IPv4.
+</p>
+
+<hr>
+
+
+<h4>Configurar una ruta estática hacia un host específico:</h4>
+
+<pre>
+Router_CBA(config)#ip route 192.168.20.10 255.255.255.255 10.0.0.2
+</pre>
+
+<p>
+La máscara <strong>255.255.255.255 (/32)</strong> indica que la ruta corresponde únicamente a la dirección IP <strong>192.168.20.10</strong>.
+</p>
+
+<hr>
+
+
+<h4>Configurar una ruta estática flotante:</h4>
+
+<pre>
+Router_CBA(config)#ip route 192.168.20.0 255.255.255.0 10.0.0.2
+
+Router_CBA(config)#ip route 192.168.20.0 255.255.255.0 10.0.0.6 200
+</pre>
+
+<p>La segunda ruta posee una <strong>Distancia Administrativa (AD) de 200</strong>, superior a la ruta estática principal (AD 1).</p>
+
+<p>Por lo tanto, queda como ruta de respaldo y se utilizará cuando la ruta principal deje de estar disponible.</p>
+
+<hr>
+
+<h4>Eliminar una ruta estática:</h4>
+
+<pre>
+Router_CBA(config)#no ip route 192.168.20.0 255.255.255.0 10.0.0.2
+</pre>
+
+<p>
+El comando <strong>no ip route</strong> elimina la ruta estática previamente configurada.
+</p>
+
+<hr>
+
+
+<h3>2. Verificación</h3>
+
+<h4>Verificar la tabla de enrutamiento:</h4>
+
+<pre>
+Router_CBA#show ip route
+</pre>
+
+<p>
+Permite visualizar las rutas conocidas por el router.
+Una ruta estática aparece identificada con la letra <strong>S</strong>.
+</p>
+
+<hr>
+
+
+<h4>Verificar solamente las rutas estáticas:</h4>
+
+<pre>
+Router_CBA#show ip route static
+</pre>
+
+<hr>
+
+
+<h4>Verificar las interfaces del router:</h4>
+
+<pre>
+Router_CBA#show ip interface brief
+</pre>
+
+<p>
+Permite comprobar las direcciones IP configuradas y el estado de las interfaces.
+</p>
+
+<hr>
+
+
+<h4>Verificar la configuración actual:</h4>
+
+<pre>
+Router_CBA#show running-config
+</pre>
+
+<hr>
+
+
+<h4>Comprobar la conectividad:</h4>
+
+<pre>
+Router_CBA#ping 192.168.20.1
+</pre>
+
+<p>
+Permite comprobar si existe conectividad IP con un dispositivo de destino.
+</p>
+
+<hr>
+
+
+<h4>Ver el camino que sigue un paquete:</h4>
+
+<pre>
+Router_CBA#traceroute 192.168.20.1
+</pre>
+
+<p>
+Permite visualizar los diferentes saltos que realiza un paquete hasta llegar al destino.
+</p>
+
+<hr>
+
+
+
+
+<h2>Resumen de la clase</h2>
+
+<p> En esta clase se trabajó el ruteo estático y la forma en que un router utiliza las rutas para alcanzar redes remotas. </p>
+<p> Se configuraron rutas estáticas, rutas por defecto y rutas flotantes, utilizando el comando <strong>ip route</strong>. </p>
+<p> Finalmente, se utilizaron comandos de Cisco IOS para verificar la tabla de ruteo, las interfaces y la conectividad de la red. </p>
+
+<a class="button" href="./index.html">
+← Volver al inicio
+</a>
+
+</p>
+
+</div>
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+</body>
+
+</html>
