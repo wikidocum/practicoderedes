@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Redes Teleinformáticas II - Clase 7</title>
+
+<link rel="stylesheet" href="../styles.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 7 - Ruteo dinámico
+</p>
+
+</header>
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver al inicio
+</a>
+
+
+<h2>Clase VII - Objetivos</h2>
+
+<ul>
+<li>Comprender qué es el <strong>ruteo dinámico</strong> y por qué se utiliza.</li>
+<li>Diferenciar el <strong>ruteo estático</strong> del <strong>ruteo dinámico</strong>.</li>
+<li>Comprender el funcionamiento básico de <strong>RIPv2</strong> y <strong>OSPF</strong>.</li>
+<li>Comprender el concepto de <strong>métrica</strong> y su influencia en la selección de rutas.</li>
+<li>Comprender el concepto de <strong>convergencia</strong> ante un cambio en la topología.</li>
+<li>Analizar cómo cambia el recorrido de un paquete cuando se produce una falla.</li>
+</ul>
+
+
+<hr>
+
+
+<h2>1. Trabajo Práctico N°7</h2>
+
+<a class="button"
+href="https://docs.google.com/document/d/1zxmjBPIG_StbM_nVCwfJgEJp0F75oh-H/edit"
+target="_blank">
+
+
+Ver consigna TP N°7
+</a>
+
+<a class="button tp-button"
+href="https://drive.google.com/file/d/1YZykpXSaESaT1rfr2_qbpzCxyOeDhlsq/view"
+target="_blank">
+Archivo PKT cátedra A
+</a>
+
+<a class="button tp-button"
+href="https://drive.google.com/file/d/1nRKqog6kA-co9sBEcePvrS_-GTGT2kNb/view"
+target="_blank">
+Archivo PKT cátedra B
+</a>
+
+<!--
+
+<a class="button"
+href="https://drive.google.com/file/d/1nRKqog6kA-co9sBEcePvrS_-GTGT2kNb/view"
+target="_blank">
+
+Archivo PKT 
+</a>
+...
+-->
+
+<hr>
+
+<h2>2. Preguntas teóricas</h2>
+
+<h3>1. Ruteo dinámico</h3>
+
+<ul>
+<li>¿Qué es el ruteo dinámico?</li>
+<li>¿Cuál es la principal diferencia entre el ruteo estático y el ruteo dinámico?</li>
+<li>¿Qué función cumple un protocolo de ruteo dinámico?</li>
+<li>¿Qué información intercambian los routers mediante un protocolo de ruteo dinámico?</li>
+<li>¿Qué redes conoce cada router antes de configurar RIP u OSPF? ¿Qué significa la letra C que aparece en la tabla de ruteo?</li> 
+</ul>
+
+<br>
+
+<table>
+<tr>
+<th>Ruteo estático</th>
+<th>Ruteo dinámico</th>
+</tr>
+
+<tr>
+<td>Configuración manual</td>
+<td>Aprendizaje automático de rutas</td>
+</tr>
+
+<tr>
+<td>Las rutas deben modificarse manualmente</td>
+<td>Las rutas pueden actualizarse ante cambios</td>
+</tr>
+
+<tr>
+<td>No existe intercambio de información de ruteo</td>
+<td>Los routers intercambian información</td>
+</tr>
+
+<tr>
+<td>Adecuado para redes simples</td>
+<td>Útil en redes con mayor complejidad y redundancia</td>
+</tr>
+</table>
+
+
+
+<h3>2. RIPv2</h3>
+
+<ul>
+<li>¿Qué es RIPv2 y qué tipo de protocolo de ruteo es?</li>
+<li>¿Qué métrica utiliza RIP para seleccionar un camino?</li>
+<li>¿Qué significa <strong>hop count</strong>?</li>
+<li>¿Qué función cumple el comando <code>network</code> en la configuración de RIPv2?</li>
+<li>¿Cómo puede un router aprender mediante RIP una red que no está directamente conectada?</li>
+</ul>
+
+
+<h3>3. OSPF</h3>
+
+<ul>
+<li>¿Qué es OSPF y qué tipo de protocolo de ruteo es?</li>
+<li>¿Qué información utiliza OSPF para calcular los caminos?</li>
+<li>¿Qué métrica utiliza OSPF?</li>
+<li>¿Cuál es la diferencia principal entre la métrica utilizada por RIP y la utilizada por OSPF?</li>
+</ul>
+
+<br>
+
+<table>
+<tr>
+<th>Vector Distancia</th>
+<th>Estado de Enlace</th>
+</tr>
+
+<tr>
+<td>Conoce la distancia y dirección hacia las redes</td>
+<td>Conoce la topología de la red</td>
+</tr>
+
+<tr>
+<td>Utiliza información recibida de routers vecinos</td>
+<td>Utiliza información sobre el estado de los enlaces</td>
+</tr>
+
+<tr>
+<td>Calcula las rutas basándose en la información de los vecinos</td>
+<td>Calcula el mejor camino sobre la topología conocida</td>
+</tr>
+
+<tr>
+<td>Normalmente utiliza cantidad de saltos</td>
+<td>Normalmente utiliza el costo de los enlaces</td>
+</tr>
+
+<tr>
+<td>Intercambia información de rutas</td>
+<td>Intercambia información sobre el estado de los enlaces</td>
+</tr>
+
+<tr>
+<td>Generalmente presenta una convergencia más lenta</td>
+<td>Generalmente presenta una convergencia más rápida</td>
+</tr>
+
+<tr>
+<td>Menor complejidad</td>
+<td>Mayor complejidad</td>
+</tr>
+
+<tr>
+<td>Ejemplo: RIP / RIPv2</td>
+<td>Ejemplo: OSPF</td>
+</tr>
+
+
+</table>
+
+
+<h3>4. Convergencia y fallas</h3>
+
+<ul>
+<li>¿Qué es la convergencia en un protocolo de ruteo dinámico?</li>
+<li>¿Qué ocurre con las rutas cuando falla un enlace y existe un camino alternativo?</li>
+<li>¿Por qué RIP y OSPF podrían seleccionar caminos diferentes ante la misma falla?</li>
+</ul>
+
+
+<h3>5. Pregunta integradora</h3>
+
+<p>
+Una red posee dos caminos posibles entre un origen y un destino. ¿Por qué RIP y OSPF podrían elegir caminos diferentes y qué sucede con las rutas cuando uno de los enlaces falla?
+</p>
+
+
+<hr>
+
+
+
+
+
+
+<h2>3. Configuración RIPv2 en Cisco </h2>
+
+<h3>1. Configuración básica para resolución TP N°7</h3>
+
+<p>
+Preparar el Router:
+</p>
+
+<pre>
+enable
+configure terminal
+hostname <i>NOMBRE</i>
+enable secret redes2
+</pre>
+
+<p>
+Configurar las IPs de las interfaces:
+</p>
+
+<pre>
+interface <i>INTERFAZ</i>
+ip address <i>IP</i> <i>MASCARA</i>
+no shutdown
+exit
+</pre>
+
+<p>
+Verificar la configuración básica:
+</p>
+
+<pre>
+show ip interface brief
+show ip route
+</pre>
+
+
+<h3>2. Configuración de RIPv2</h3>
+
+<pre>
+configure terminal
+ router rip
+ version 2
+ no auto-summary
+ network <i>RED1</i>
+ network <i>RED2</i>
+ exit
+end
+</pre>
+
+<p>
+El comando <code>network</code> <strong>no crea una ruta hacia esa red</strong>. Indica al proceso RIP qué redes directamente conectadas deben participar del protocolo.
+</p>
+
+<p>
+A partir de esa información, los routers intercambian información y pueden aprender las redes remotas de otros routers.
+</p>
+
+
+<h3>3. Verificación de RIPv2</h3>
+
+<pre>
+show ip route
+</pre>
+<pre>
+show ip protocols
+</pre>
+
+<h3>4. Ejemplo de configuración de RIP</h3>
+
+
+<!--
+
+<p>
+<img src="img/Ejemplo-RIP.jpg"
+class="imagen"
+alt="Tramas Ethernet">
+</p>
+<p>
+
+-->
+
+<hr>
+
+
+
+
+
+<h2>4. Configuración OSPF en Cisco</h2>
+
+
+<h3>1. Configuración básica para resolución TP N°7</h3>
+
+<p>
+Eliminar RIP:
+</p>
+
+<pre>
+configure terminal
+no router rip
+end
+</pre>
+
+
+<p>
+Verificar la configuración básica:
+</p>
+
+<pre>
+show ip interface brief
+show ip route
+</pre>
+
+
+<h3>2. Configuración de OSPF</h3>
+
+<pre>
+configure terminal
+router ospf 1
+network <i>RED1</i> <i>WILDCARD</i> area 0
+network <i>RED2</i> <i>WILDCARD</i> area 0
+exit
+end
+</pre>
+
+<p>
+A partir de esa información, los routers intercambian información y pueden aprender las redes remotas de otros routers.
+</p>
+
+
+<h3>3. Verificación de OSPF</h3>
+
+<pre>
+show ip ospf neighbor
+</pre>
+<pre>
+show ip route
+</pre>
+<pre>
+show ip protocols
+</pre>
+
+
+<p>
+
+<hr>
+
+
+
+
+<h2>Resumen de la clase</h2>
+
+<p>
+En esta clase estudiamos el <strong>ruteo dinámico</strong> y su diferencia con el ruteo estático. Analizamos el funcionamiento de <strong>RIPv2 y OSPF</strong>, sus diferentes métricas y la forma en que los routers pueden adaptar sus rutas ante cambios en la topología.
+</p>
+
+
+<h2>Conclusión</h2>
+
+<p>
+El ruteo dinámico permite que una red pueda adaptarse a cambios sin depender de la modificación manual de cada ruta. RIP y OSPF utilizan diferentes mecanismos y métricas para seleccionar los caminos, y la <strong>convergencia</strong> permite que los routers actualicen sus tablas cuando se produce una falla.
+</p>
+
+
+</div>
+
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+
+</body>
+
+</html>
