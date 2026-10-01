@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clase 8 - ACL estándar</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+
+<body>
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 8 - ACL estándar
+</p>
+
+</header>
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver a principal
+</a>
+
+
+
+
+<h2>Clase VIII - Objetivos</h2>
+
+<ul>
+<li>Comprender qué es una <strong>ACL</strong> y para qué se utiliza.</li>
+<li>Comprender el funcionamiento de las <strong>ACL estándar</strong>.</li>
+<li>Analizar el procesamiento de las reglas en orden secuencial y por <strong>primera coincidencia</strong>.</li>
+<li>Comprender el concepto de <strong>denegación implícita</strong>.</li>
+<li>Determinar dónde y en qué dirección (<strong>IN/OUT</strong>) aplicar una ACL.</li>
+<li>Verificar el funcionamiento de una ACL mediante comandos de diagnóstico.</li>
+</ul>
+
+
+
+
+<hr>
+
+
+<h2>1. Trabajo Práctico N°8</h2>
+
+<a class="button"
+href="https://docs.google.com/document/d/1tKKE2cj7lMfBCvgJO9ugzXsqBJLnlfIu/edit"
+target="_blank">
+
+
+Ver consigna TP N°8
+</a>
+
+
+
+<hr>
+
+<h2>2. Access Control List</h2>
+
+<h3>1. ¿Qué es una ACL?</h3>
+
+    <p>
+        Una ACL (Access Control List) es una lista de reglas que permite al router
+        aceptar o denegar tráfico según determinadas condiciones.
+    </p>
+
+    <p>
+        En esta primera clase trabajaremos únicamente con <strong>ACL estándar</strong>,
+        que toman como criterio la <strong>dirección IP de origen</strong>.
+    </p>
+
+
+
+<h3>2. ACL estándar: ¿qué puede evaluar?</h3>
+
+    <p>
+        Una ACL estándar evalúa únicamente la <strong>IP de origen</strong> del paquete.
+    </p>
+
+
+<h3>3. ¿Dónde se aplica una ACL?</h3>
+
+    <p>
+        Una ACL se asocia a una interfaz del router y a un sentido:
+    </p>
+
+    <ul>
+        <li><strong>IN</strong> → cuando el paquete entra por la interfaz.</li>
+        <li><strong>OUT</strong> → cuando el paquete sale por la interfaz.</li>
+    </ul>
+
+    <p>
+        La elección de dónde colocar la ACL es especialmente importante en las
+        ACL estándar porque solo podemos identificar el origen.
+    </p>
+
+    <p>
+        Por eso, si queremos bloquear un origen solamente cuando intenta llegar
+        a determinado destino, debemos pensar primero por qué camino circula el
+        paquete y dónde podemos aplicar el filtro sin afectar otras comunicaciones.
+    </p>
+	
+	
+
+
+
+<h3>4. ¿Cómo procesa el router una ACL?</h3>
+
+<table>
+<tr>
+<th>Concepto</th>
+<th>¿Qué significa?</th>
+</tr>
+
+<tr>
+<td><strong>Orden secuencial</strong></td>
+<td>
+El router analiza las reglas de la ACL de arriba hacia abajo, respetando el orden en que fueron configuradas.
+</td>
+</tr>
+
+<tr>
+<td><strong>Primera coincidencia</strong></td>
+<td>
+Cuando el paquete coincide con una regla, se ejecuta su acción (<code>permit</code> o <code>deny</code>) y el router deja de evaluar las siguientes reglas.
+</td>
+</tr>
+
+<tr>
+<td><strong>Denegación implícita</strong></td>
+<td>
+Si el paquete no coincide con ninguna regla de la ACL, se descarta automáticamente. Es como si al final existiera un <code>deny any</code>.
+</td>
+</tr>
+
+<tr>
+<td><strong>Importancia del orden</strong></td>
+<td>
+El orden de las reglas es fundamental, porque una vez encontrada una coincidencia, las reglas que aparecen después ya no se evalúan.
+</td>
+</tr>
+</table>
+
+
+
+
+
+<h3>5. Ejemplo</h3>
+
+
+
+<div class="contenedor-diagrama">
+ 
+  <!-- Carga acl.html directamente adentro sin recargar la página -->
+  <iframe 
+    src="acl.html" 
+    width="100%" 
+    height="850px" 
+    style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
+    title="Simulador ACL Cisco">
+  </iframe>
+</div>
+
+
+<hr>
+
+
+
+
+<h2>3. Sintaxis básica </h2>
+
+
+
+    <h3>1. configuración</h3>
+
+
+    <p>
+        Una ACL estándar numerada utiliza la siguiente estructura:
+    </p>
+
+    <pre><code>access-list &lt;NÚMERO&gt; permit|deny &lt;ORIGEN&gt;</code></pre>
+
+    <p>
+        donde <code>&lt;ORIGEN&gt;</code> puede expresarse de distintas formas:
+    </p>
+
+    <ul>
+        <li><code>&lt;IP&gt; &lt;WILDCARD&gt;</code> → host o red</li>
+        <li><code>host &lt;IP&gt;</code> → host específico</li>
+        <li><code>any</code> → cualquier origen</li>
+    </ul>
+
+    <p>
+        Luego debemos asociarla a una interfaz:
+    </p>
+
+    <pre><code>interface &lt;INTERFACE&gt;
+ ip access-group &lt;NÚMERO&gt; in|out</code></pre>
+
+    <h3>2. Ejemplo</h3>
+
+    <pre><code>access-list 10 deny host 192.168.10.25
+access-list 10 permit any</code></pre>
+
+    <p>Aplicada en sentido <strong>IN</strong>:</p>
+
+    <pre><code>interface FastEthernet0/0
+ ip access-group 10 in</code></pre>
+
+    <p>O en sentido <strong>OUT</strong>:</p>
+
+    <pre><code>interface FastEthernet0/0
+ ip access-group 10 out</code></pre>
+
+
+  
+
+    <h3>3. Verificación</h3>
+
+    <p>Para comprobar las ACL podemos utilizar:</p>
+
+    <pre><code>show access-lists</code></pre>
+
+    <p>
+        Muestra las listas configuradas y los contadores de coincidencias.
+    </p>
+
+    <p>También:</p>
+
+    <pre><code>show ip interface</code></pre>
+
+    <p>
+        Permite comprobar si una ACL está aplicada a una interfaz.
+    </p>
+
+    <p>Y:</p>
+
+    <pre><code>show running-config</code></pre>
+
+    <p>
+        Permite revisar la configuración completa.
+    </p>
+
+   
+
+<hr>
+
+
+
+<h2>Conclusión</h2>
+
+<p>
+Las <strong>ACL estándar</strong> permiten controlar el tráfico utilizando como criterio la <strong>dirección IP de origen</strong>. Su funcionamiento depende del orden de las reglas, la primera coincidencia y la denegación implícita, por lo que resulta fundamental definir correctamente dónde y en qué dirección se aplica la ACL.
+</p>
+
+<a class="button" href="./index.html">
+← Volver al inicio
+</a>
+
+
+</div>
+
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+
+</body>
+
+</html>
