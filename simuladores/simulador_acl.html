@@ -1373,13 +1373,28 @@ function renderCLI() {
   let cli = "";
 
 
+  /* =======================================================
+     SHOW ACCESS-LISTS
+  ======================================================= */
+
+  cli +=
+    `Router# show access-lists ${aclState.number}\n`;
+
+
+  cli +=
+
+    aclState.type === "standard"
+
+      ? `Standard IP access list ${aclState.number}\n`
+
+      : `Extended IP access list ${aclState.number}\n`;
+
+
   aclState.rules.forEach(
     function(rule) {
 
       cli +=
-
-        `access-list ${aclState.number} ` +
-        `${getRuleText(rule).toLowerCase()}\n`;
+        `    ${getRuleText(rule).toLowerCase()}\n`;
 
     }
   );
@@ -1388,13 +1403,20 @@ function renderCLI() {
   cli += "\n";
 
 
+  /* =======================================================
+     SHOW IP INTERFACE
+  ======================================================= */
+
   cli +=
-    `interface ${aclState.interfaceName}\n`;
+    `Router# show ip interface ${aclState.interfaceName}\n`;
 
 
   cli +=
-    ` ip access-group ` +
-    `${aclState.number} ` +
+    `${aclState.interfaceName}\n`;
+
+
+  cli +=
+    `  IP access group ${aclState.number} ` +
     `${aclState.direction}`;
 
 
