@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clase 9 - ACL extendidas</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+
+<body>
+
+<header>
+
+<h1>Redes Teleinformáticas II</h1>
+
+<p>
+Clase 9 - ACL extendidas
+</p>
+
+</header>
+
+
+<div class="lesson">
+
+
+<a class="button" href="../index.html">
+← Volver a principal
+</a>
+
+
+
+
+<h2>Clase IX - Objetivos</h2>
+
+<ul>
+<li>Comprender el funcionamiento de las <strong>ACL extendidas</strong>.</li>
+<li>Diferenciar las ACL estándar de las <strong>ACL extendidas</strong>.</li>
+<li>Comprender cómo una ACL extendida puede evaluar <strong>origen, destino, protocolo y puerto</strong>.</li>
+<li>Interpretar el orden secuencial y la <strong>primera coincidencia</strong> de las reglas.</li>
+<li>Utilizar ACL extendidas para permitir o denegar servicios específicos.</li>
+<li>Determinar correctamente dónde y en qué dirección (<strong>IN/OUT</strong>) aplicar una ACL.</li>
+<li>Verificar el funcionamiento de una ACL mediante comandos de diagnóstico.</li>
+</ul>
+
+
+
+
+<hr>
+
+
+<h2>1. Trabajo Práctico N°9</h2>
+
+<a class="button"
+href="https://docs.google.com/document/d/11zCEWqo1L4bZPH6fbvSk74nGyX5IyLTw/edit"
+target="_blank">
+
+Ver consigna TP N°9
+</a>
+
+
+
+<hr>
+
+
+<h2>2. ACL extendidas</h2>
+
+
+<h3>1. ¿Qué es una ACL extendida?</h3>
+
+<p>
+Una <strong>ACL extendida</strong> es una lista de reglas que permite al router
+controlar el tráfico utilizando criterios más específicos que una ACL estándar.
+</p>
+
+<p>
+Mientras que una ACL estándar solamente analiza la
+<strong>dirección IP de origen</strong>, una ACL extendida puede analizar
+diferentes características del paquete.
+</p>
+
+
+<table>
+
+<tr>
+<th>ACL estándar</th>
+<th>ACL extendida</th>
+</tr>
+
+<tr>
+<td>IP de origen</td>
+<td>IP de origen</td>
+</tr>
+
+<tr>
+<td></td>
+<td>IP de destino</td>
+</tr>
+
+<tr>
+<td></td>
+<td>Protocolo</td>
+</tr>
+
+<tr>
+<td></td>
+<td>Puerto o servicio</td>
+</tr>
+
+</table>
+
+
+<p>
+Esto permite crear reglas mucho más específicas.
+</p>
+
+
+<h3>2. ¿Qué puede evaluar una ACL extendida?</h3>
+
+<p>
+Una ACL extendida puede utilizar diferentes características del paquete
+para decidir si debe ser permitido o bloqueado.
+</p>
+
+<ul>
+
+<li><strong>Origen:</strong> desde qué dirección IP proviene el tráfico.</li>
+
+<li><strong>Destino:</strong> hacia qué dirección IP o red se dirige.</li>
+
+<li><strong>Protocolo:</strong> qué protocolo utiliza el tráfico, por ejemplo
+<code>TCP</code>, <code>UDP</code> o <code>ICMP</code>.</li>
+
+<li><strong>Puerto:</strong> qué servicio utiliza el tráfico TCP o UDP.</li>
+
+</ul>
+
+
+<p>
+Esto permite expresar políticas como:
+</p>
+
+<pre><code>Permitir que una PC acceda al servidor web.
+
+Bloquear que una red acceda al servidor mediante SSH.
+
+Permitir solamente tráfico ICMP entre determinadas redes.</code></pre>
+
+
+<hr>
+
+
+<h2>3. Diferencia con una ACL estándar</h2>
+
+
+<p>
+En la clase anterior utilizamos una ACL estándar como:
+</p>
+
+<pre><code>access-list 10 deny host 192.168.10.25</code></pre>
+
+<p>
+La regla solamente pregunta:
+</p>
+
+<pre><code>¿El origen es 192.168.10.25?</code></pre>
+
+<p>
+Con una ACL extendida podemos agregar más condiciones:
+</p>
+
+<pre><code>¿El origen es 192.168.10.25?
+¿El destino es 192.168.30.10?
+¿El protocolo es TCP?
+¿El puerto es 80?</code></pre>
+
+<p>
+De esta manera podemos controlar no solamente
+<strong>quién origina el tráfico</strong>, sino también
+<strong>hacia dónde se dirige y qué servicio está utilizando</strong>.
+</p>
+
+
+
+<hr>
+
+
+<h2>4. Sintaxis básica</h2>
+
+
+<h3>1. Configuración</h3>
+
+<p>
+Las ACL extendidas numeradas utilizan tradicionalmente los números
+<strong>100 a 199</strong>.
+</p>
+
+<p>
+Una estructura simplificada es:
+</p>
+
+<pre><code>access-list &lt;NÚMERO&gt; permit|deny &lt;PROTOCOLO&gt;
+&lt;ORIGEN&gt; &lt;WILDCARD&gt;
+&lt;DESTINO&gt; &lt;WILDCARD&gt;</code></pre>
+
+
+<p>
+Cuando se trabaja con TCP o UDP pueden agregarse condiciones relacionadas
+con los puertos.
+</p>
+
+<pre><code>access-list &lt;NÚMERO&gt; permit|deny tcp
+&lt;ORIGEN&gt; &lt;WILDCARD&gt;
+&lt;DESTINO&gt; &lt;WILDCARD&gt;
+eq &lt;PUERTO&gt;</code></pre>
+
+
+<h3>2. Elementos de la sintaxis</h3>
+
+<table>
+
+<tr>
+<th>Elemento</th>
+<th>Función</th>
+</tr>
+
+<tr>
+<td><code>access-list</code></td>
+<td>Indica que se está creando o modificando una ACL.</td>
+</tr>
+
+<tr>
+<td><code>100</code></td>
+<td>Número que identifica la ACL extendida.</td>
+</tr>
+
+<tr>
+<td><code>permit</code> / <code>deny</code></td>
+<td>Acción que se ejecuta cuando el paquete coincide con la regla.</td>
+</tr>
+
+<tr>
+<td><code>tcp</code></td>
+<td>Indica que la regla se aplica al protocolo TCP.</td>
+</tr>
+
+<tr>
+<td><code>udp</code></td>
+<td>Indica que la regla se aplica al protocolo UDP.</td>
+</tr>
+
+<tr>
+<td><code>icmp</code></td>
+<td>Indica que la regla se aplica al protocolo ICMP.</td>
+</tr>
+
+<tr>
+<td>Origen</td>
+<td>Dirección IP o red desde donde proviene el tráfico.</td>
+</tr>
+
+<tr>
+<td>Destino</td>
+<td>Dirección IP o red hacia donde se dirige el tráfico.</td>
+</tr>
+
+<tr>
+<td><code>eq</code></td>
+<td>Indica que el puerto debe ser exactamente el especificado.</td>
+</tr>
+
+</table>
+
+
+
+<hr>
+
+
+<h2>5. Ejemplo: bloquear tráfico entre dos hosts</h2>
+
+
+<p>
+Supongamos que queremos bloquear el tráfico desde:
+</p>
+
+<pre><code>192.168.10.25</code></pre>
+
+<p>
+hacia:
+</p>
+
+<pre><code>192.168.30.10</code></pre>
+
+<p>
+Podemos utilizar:
+</p>
+
+<pre><code>access-list 100 deny ip host 192.168.10.25 host 192.168.30.10
+access-list 100 permit ip any any</code></pre>
+
+
+<p>
+La primera regla indica:
+</p>
+
+<pre><code>Origen:  192.168.10.25
+Destino: 192.168.30.10
+Protocolo: IP
+Acción: DENY</code></pre>
+
+
+<p>
+La segunda regla permite el resto del tráfico IP.
+</p>
+
+<pre><code>access-list 100 permit ip any any</code></pre>
+
+
+<p>
+Ahora podemos controlar simultáneamente <strong>origen y destino</strong>,
+algo que no era posible con una ACL estándar.
+</p>
+
+
+
+<hr>
+
+
+<h2>6. Ejemplo: bloquear solamente un servicio</h2>
+
+
+<p>
+Una de las principales ventajas de las ACL extendidas es poder controlar
+servicios específicos.
+</p>
+
+<p>
+Supongamos que queremos impedir que la Red A acceda al servidor web
+de la Red D.
+</p>
+
+<p>
+El servidor utiliza HTTP mediante TCP puerto <strong>80</strong>.
+</p>
+
+
+<pre><code>access-list 110 deny tcp 192.168.10.0 0.0.0.255
+host 192.168.50.10 eq 80
+
+access-list 110 permit ip any any</code></pre>
+
+
+<p>
+La regla puede interpretarse como:
+</p>
+
+<pre><code>Origen:
+192.168.10.0/24
+
+Destino:
+192.168.50.10
+
+Protocolo:
+TCP
+
+Puerto:
+80
+
+Acción:
+DENY</code></pre>
+
+
+<p>
+Por lo tanto, los equipos de la Red A no podrán acceder al servicio HTTP
+del servidor, pero podrán continuar utilizando otros servicios permitidos.
+</p>
+
+
+<p>
+Por ejemplo, una comunicación hacia otro servicio del mismo servidor
+podría no coincidir con esta regla.
+</p>
+
+
+
+<hr>
+
+
+<h2>7. Puertos y servicios</h2>
+
+
+<p>
+Cuando utilizamos TCP o UDP podemos utilizar los números de puerto para
+identificar servicios específicos.
+</p>
+
+
+<table>
+
+<tr>
+<th>Servicio</th>
+<th>Protocolo</th>
+<th>Puerto</th>
+</tr>
+
+<tr>
+<td>HTTP</td>
+<td>TCP</td>
+<td>80</td>
+</tr>
+
+<tr>
+<td>HTTPS</td>
+<td>TCP</td>
+<td>443</td>
+</tr>
+
+<tr>
+<td>FTP</td>
+<td>TCP</td>
+<td>21</td>
+</tr>
+
+<tr>
+<td>SSH</td>
+<td>TCP</td>
+<td>22</td>
+</tr>
+
+<tr>
+<td>DNS</td>
+<td>UDP/TCP</td>
+<td>53</td>
+</tr>
+
+</table>
+
+
+<p>
+Por ejemplo, para bloquear HTTP hacia un servidor:
+</p>
+
+<pre><code>access-list 110 deny tcp any host 192.168.50.10 eq 80</code></pre>
+
+
+<p>
+La palabra <code>any</code> indica que puede tratarse de cualquier dirección
+de origen.
+</p>
+
+
+
+<hr>
+
+
+<h2>8. ICMP</h2>
+
+
+<p>
+Las ACL extendidas también pueden utilizarse para controlar tráfico
+<strong>ICMP</strong>.
+</p>
+
+<p>
+Por ejemplo, para impedir que una red realice <code>ping</code> a un servidor:
+</p>
+
+<pre><code>access-list 120 deny icmp 192.168.10.0 0.0.0.255
+host 192.168.50.10
+
+access-list 120 permit ip any any</code></pre>
+
+
+<p>
+En este caso no se utiliza un puerto porque
+<strong>ICMP no utiliza puertos TCP o UDP</strong>.
+</p>
+
+
+
+<hr>
+
+
+<h2>9. Orden de las reglas</h2>
+
+
+<p>
+Al igual que en las ACL estándar, las ACL extendidas se procesan
+<strong>de arriba hacia abajo</strong>.
+</p>
+
+<p>
+El router utiliza la <strong>primera coincidencia</strong>.
+Una vez que encuentra una regla que coincide con el paquete,
+aplica <code>permit</code> o <code>deny</code> y deja de evaluar
+las reglas siguientes.
+</p>
+
+
+<p>
+Por ejemplo:
+</p>
+
+<pre><code>access-list 100 deny tcp any host 192.168.50.10 eq 80
+access-list 100 permit ip any any</code></pre>
+
+
+<p>
+Un paquete TCP destinado al puerto 80 del servidor coincide con la primera
+regla y es bloqueado.
+</p>
+
+
+<p>
+En cambio, un paquete que no coincida con esa regla continúa evaluándose
+y puede coincidir con:
+</p>
+
+<pre><code>permit ip any any</code></pre>
+
+
+<p>
+Por este motivo, el orden de las reglas es fundamental.
+</p>
+
+
+
+<hr>
+
+
+<h2>10. Denegación implícita</h2>
+
+
+<p>
+Al igual que las ACL estándar, una ACL extendida posee una
+<strong>denegación implícita</strong> al final.
+</p>
+
+
+<p>
+Por ejemplo:
+</p>
+
+<pre><code>access-list 100 deny tcp any host 192.168.50.10 eq 80</code></pre>
+
+
+<p>
+Conceptualmente termina con:
+</p>
+
+<pre><code>deny ip any any</code></pre>
+
+
+<p>
+Por lo tanto, si queremos bloquear solamente un determinado tráfico
+y permitir el resto, debemos agregar explícitamente:
+</p>
+
+<pre><code>access-list 100 permit ip any any</code></pre>
+
+
+
+<hr>
+
+
+<h2>11. ¿Dónde aplicar una ACL extendida?</h2>
+
+
+<p>
+Una ACL extendida permite identificar con precisión el tráfico que queremos
+controlar. Por eso, normalmente se recomienda colocarla
+<strong>cerca del origen del tráfico</strong>.
+</p>
+
+
+<p>
+De esta manera podemos detener el tráfico no deseado antes de que atraviese
+innecesariamente el resto de la red.
+</p>
+
+
+<pre><code>ORIGEN
+   │
+   ▼
+ROUTER
+   │
+   │ ACL extendida
+   ▼
+RED INTERMEDIA
+   │
+   ▼
+DESTINO</code></pre>
+
+
+<p>
+Sin embargo, la ubicación concreta depende de la política que queremos
+implementar y del recorrido del tráfico.
+</p>
+
+
+<h3>IN y OUT</h3>
+
+<p>
+La ACL puede aplicarse cuando el paquete entra por una interfaz:
+</p>
+
+<pre><code>interface FastEthernet0/0
+ ip access-group 100 in</code></pre>
+
+
+<p>
+O cuando sale:
+</p>
+
+<pre><code>interface FastEthernet0/1
+ ip access-group 100 out</code></pre>
+
+
+<p>
+La elección debe realizarse analizando previamente el camino que seguirá
+el paquete.
+</p>
+
+
+
+<hr>
+
+
+<h2>12. ACL y ruteo</h2>
+
+
+<p>
+Una ACL extendida tampoco reemplaza el proceso de ruteo.
+</p>
+
+<p>
+El router continúa utilizando su tabla de ruteo para determinar
+por dónde debe enviar el paquete.
+</p>
+
+
+<pre><code>
+              PAQUETE
+                 │
+                 ▼
+          ACL ¿PERMITIDO?
+             │       │
+           NO        SÍ
+             │       │
+             ▼       ▼
+         DESCARTA  TABLA DE RUTEO
+                       │
+                       ▼
+                INTERFAZ DE SALIDA
+                       │
+                       ▼
+                    DESTINO
+</code></pre>
+
+
+<p>
+En nuestra topología, <strong>OSPF continúa siendo responsable de aprender
+las rutas</strong>. La ACL simplemente agrega una condición de filtrado
+sobre el tráfico.
+</p>
+
+
+
+<hr>
+
+
+<h2>13. Verificación</h2>
+
+
+<p>
+Para verificar las ACL podemos utilizar:
+</p>
+
+<pre><code>show access-lists</code></pre>
+
+<p>
+Muestra las ACL configuradas y los contadores de coincidencias de
+cada regla.
+</p>
+
+
+<pre><code>show ip interface</code></pre>
+
+<p>
+Permite comprobar qué ACL se encuentra aplicada a cada interfaz y
+en qué dirección.
+</p>
+
+
+<pre><code>show running-config</code></pre>
+
+<p>
+Permite revisar la configuración completa del router.
+</p>
+
+
+<p>
+Durante las pruebas es importante generar tráfico y volver a consultar
+<code>show access-lists</code> para observar si los contadores aumentan.
+</p>
+
+
+
+<hr>
+
+
+<h2>14. Comparación final</h2>
+
+
+<table>
+
+<tr>
+<th>Característica</th>
+<th>ACL estándar</th>
+<th>ACL extendida</th>
+</tr>
+
+<tr>
+<td>Origen</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+
+<tr>
+<td>Destino</td>
+<td>✘</td>
+<td>✔</td>
+</tr>
+
+<tr>
+<td>Protocolo</td>
+<td>✘</td>
+<td>✔</td>
+</tr>
+
+<tr>
+<td>Puerto</td>
+<td>✘</td>
+<td>✔</td>
+</tr>
+
+<tr>
+<td>Ejemplo de rango numerado</td>
+<td>1–99</td>
+<td>100–199</td>
+</tr>
+
+</table>
+
+
+
+<hr>
+
+
+<h2>Conclusión</h2>
+
+<p>
+Las <strong>ACL extendidas</strong> permiten realizar un control de tráfico
+mucho más preciso que las ACL estándar, ya que pueden evaluar
+<strong>origen, destino, protocolo y puerto</strong>.
+</p>
+
+<p>
+Su funcionamiento continúa basándose en los mismos principios estudiados
+en la clase anterior: <strong>orden secuencial, primera coincidencia y
+denegación implícita</strong>. La principal diferencia es la cantidad de
+información que podemos utilizar para tomar la decisión.
+</p>
+
+<p>
+Las ACL extendidas permiten pasar de una política general como
+<strong>"bloquear a este equipo"</strong> a una política mucho más
+específica como <strong>"bloquear que esta red acceda a este servidor
+mediante este servicio"</strong>.
+</p>
+
+
+<a class="button" href="./index.html">
+← Volver al inicio
+</a>
+
+
+</div>
+
+
+<footer>
+
+Redes Informáticas II - Material de apoyo para estudiantes y docentes
+
+<br><br>
+
+Versión 2026
+
+</footer>
+
+
+</body>
+
+</html>
